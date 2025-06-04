@@ -1,0 +1,16 @@
+.textError {
+  color: red;
+  font-size: 24px;
+}
+
+.link {
+  cursor: pointer;
+  padding: 3px 10px;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+.link:hover {
+  background-color: rgba(128, 128, 128, 0.291);
+  border: 1px solid rgba(128, 128, 128, 0.291);
+}

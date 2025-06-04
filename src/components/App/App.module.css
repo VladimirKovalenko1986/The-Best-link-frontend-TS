@@ -1,0 +1,23 @@
+.conteiner {
+  display: flex;
+  justify-content: center;
+}
+
+/* .title {
+  font-size: 24px;
+}
+
+.text {
+  font-size: 26px;
+  color: red;
+  text-align: center;
+}
+
+.btn {
+  width: 150px;
+  cursor: pointer;
+} */
+
+.no-scroll {
+  overflow: hidden;
+}

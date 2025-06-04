@@ -1,0 +1,92 @@
+.backDrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999; /* ✅ Найвищий пріоритет */
+  pointer-events: auto; /* ✅ Отримує всі кліки */
+}
+
+.modal {
+  background: #fff;
+  padding: 35px 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  position: relative;
+  width: 600px;
+  text-align: center;
+  z-index: 10000; /* ✅ Щоб було поверх `backDrop` */
+  pointer-events: auto; /* ✅ Дозволяє клікати тільки по модалці */
+  /* height: 100px; */
+}
+
+.dark {
+  background: white; /* У темному режимі фон модалки залишається білим */
+  color: black;
+}
+
+.btnClose {
+  border-radius: 50%;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  cursor: pointer;
+  border: 1px solid black;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.btnClose:hover {
+  background-color: rgb(190, 184, 184);
+}
+
+.btnCancel {
+  cursor: pointer;
+  background-color: green;
+  border: 1px solid green;
+  border-radius: 5px;
+  color: white;
+  text-transform: uppercase;
+}
+
+.btnCancel:hover {
+  background-color: rgb(75, 130, 75);
+}
+
+.btnEdite {
+  cursor: pointer;
+  background-color: orange;
+  border: 1px solid orange;
+  border-radius: 5px;
+  color: white;
+  text-transform: uppercase;
+}
+
+.btnEdite:hover {
+  background-color: rgb(210, 180, 118);
+}
+
+/* ✅ Блокуємо всі кліки на сторінці */
+body.modal-open {
+  overflow: hidden; /* ❌ Забороняє прокрутку */
+  pointer-events: none; /* ❌ Вимикає кліки */
+}
+
+body.modal-open .modal {
+  pointer-events: auto; /* ✅ Дозволяє клікати тільки по модалці */
+}

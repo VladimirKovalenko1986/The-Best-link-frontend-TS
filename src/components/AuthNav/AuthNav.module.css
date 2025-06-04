@@ -1,0 +1,16 @@
+.link {
+  padding: 5px 10px;
+  border: 1px solid black;
+  margin: 5px;
+  border-radius: 5px;
+}
+
+.link:hover {
+  background-color: rgba(128, 128, 128, 0.291);
+  border: 1px solid rgba(128, 128, 128, 0.291);
+}
+
+.active {
+  color: white;
+  background-color: green;
+}
