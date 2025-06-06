@@ -4,7 +4,7 @@ import Navigation from '../Navigation/Navigation.tsx';
 import UserMenu from '../UserMenu/UserMenu.tsx';
 import AuthNav from '../AuthNav/AuthNav.tsx';
 import ThemeSwitcher from '../ThemeSwitcher/ThemeSwitcher.tsx';
-import { selectIsLoggedIn } from '../../redux/auth/selector.ts';
+import { selectIsLoggedIn } from '../../redux/auth/selectors.ts';
 import { useEffect } from 'react';
 import { refreshUser } from '../../redux/auth/operations.ts';
 

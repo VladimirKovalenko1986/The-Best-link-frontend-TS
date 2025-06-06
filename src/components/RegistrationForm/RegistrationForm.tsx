@@ -8,7 +8,7 @@ import { registration } from '../../redux/auth/operations.ts';
 import {
   selectLoadingRegistration,
   selectError,
-} from '../../redux/auth/selector.ts';
+} from '../../redux/auth/selectors.ts';
 import FallingLinesLoading from '../FallingLinesLoading/FallingLinesLoading.tsx';
 import css from './RegistrationForm.module.css';
 

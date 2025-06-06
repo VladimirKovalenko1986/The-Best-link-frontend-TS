@@ -3,7 +3,7 @@ import { lazy } from 'react';
 import Layout from '../Layout/Layout.tsx';
 import { Route, Routes } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { selectIsRefreshing } from '../../redux/auth/selector.ts';
+import { selectIsRefreshing } from '../../redux/auth/selectors.ts';
 import RestrictedRoute from '../RestrictedRoute/RestrictedRoute.js';
 import PrivateRoute from '../PrivateRoute/PrivateRoute.tsx';
 import SendEmailResetPassword from '../SendEmailResetPassword/SendEmailResetPassword.tsx';

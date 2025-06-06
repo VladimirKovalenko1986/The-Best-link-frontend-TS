@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 import { useId } from 'react';
 import { toast } from 'react-toastify';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectLoadingResetPassword } from '../../redux/auth/selector.ts';
+import { selectLoadingResetPassword } from '../../redux/auth/selectors.ts';
 import { sendEmailResetPassword } from '../../redux/auth/operations.ts';
 import TriangleLoading from '../TriangleLoading/TriangleLoading.tsx';
 import css from './SedEmailResetPassword.module.css';

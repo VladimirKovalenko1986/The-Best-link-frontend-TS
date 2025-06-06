@@ -4,16 +4,41 @@ export type User = {
   photo: string | null;
 };
 
-export type RegistrationResponse = {
+export type ResponseUser = {
   data: {
     user: User;
     accessToken: string | null;
   };
 };
 
-export type RegisterDto = {
+export type UserDto = {
   name: string;
   email: string;
   password: string;
   photo?: File;
+};
+
+export type GoogleLoginResponse = {
+  user: User;
+  accessToken: string;
+};
+
+export type AuthState = {
+  user: {
+    name: string | null;
+    email: string | null;
+    photo: string | null;
+  };
+  token: string | null;
+  isLoggedIn: boolean;
+  isRefreshing: boolean;
+  loading: {
+    registration: boolean;
+    login: boolean;
+    logout: boolean;
+    registrationGoogle: boolean;
+    resetPassword: boolean;
+  };
+  error: string | null;
+  message: string;
 };

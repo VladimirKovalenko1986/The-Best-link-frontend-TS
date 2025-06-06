@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { useId } from 'react';
-import { selectLoadingLogin, selectError } from '../../redux/auth/selector.ts';
+import { selectLoadingLogin, selectError } from '../../redux/auth/selectors.ts';
 import { logIn } from '../../redux/auth/operations.ts';
 import HourglassLoading from '../HourglassLoading/HourglassLoading.tsx';
 import css from './LoginForm.module.css';

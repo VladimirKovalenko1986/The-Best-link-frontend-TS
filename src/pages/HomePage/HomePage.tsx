@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { selectLoadingLogout } from '../../redux/auth/selector.ts';
+import { selectLoadingLogout } from '../../redux/auth/selectors.ts';
 import InfinitySpinLoading from '../../components/InfinitySpinLoading/InfinitySpinLoading.tsx';
 import TitleLink from '../../components/TitleLink/TitleLink.tsx';
 import css from './HomePage.module.css';

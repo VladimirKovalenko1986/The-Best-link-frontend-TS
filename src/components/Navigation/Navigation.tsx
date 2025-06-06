@@ -4,8 +4,8 @@ import clsx from 'clsx';
 import { useSelector } from 'react-redux';
 import {
   selectIsLoggedIn,
-  selectResetPassword,
-} from '../../redux/auth/selector.ts';
+  selectLoadingResetPassword,
+} from '../../redux/auth/selectors.ts';
 
 const getNavLinkClass = ({ isActive }) => {
   return clsx(css.link, isActive && css.active);
@@ -13,7 +13,7 @@ const getNavLinkClass = ({ isActive }) => {
 
 export default function Navigation() {
   const isLoggedIn = useSelector(selectIsLoggedIn);
-  const resetPassword = useSelector(selectResetPassword);
+  const resetPassword = useSelector(selectLoadingResetPassword);
 
   return (
     <nav>

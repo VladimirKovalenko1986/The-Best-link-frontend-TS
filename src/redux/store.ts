@@ -14,6 +14,9 @@ import taskReducer from './links/slice.ts';
 import authReducer from './auth/slice.ts';
 import themeReducer from './theme/slice.ts';
 import { setAuthHeader } from './auth/operations.ts';
+import type { Reducer } from '@reduxjs/toolkit';
+import type { AuthState } from './auth/auth.type.ts';
+import type { PersistPartial } from 'redux-persist/es/persistReducer';
 
 const authPersistConfig = {
   key: 'auth',
@@ -27,7 +30,9 @@ const themePersistConfig = {
   whitelist: ['mode'],
 };
 
-const persistedAuthReducer = persistReducer(authPersistConfig, authReducer);
+const persistedAuthReducer: Reducer<AuthState & PersistPartial> =
+  persistReducer(authPersistConfig, authReducer);
+
 const persistedThemeReducer = persistReducer(themePersistConfig, themeReducer);
 
 export const store = configureStore({
@@ -44,6 +49,7 @@ export const store = configureStore({
     }),
 });
 
+export type RootState = ReturnType<typeof store.getState>;
 export const persistor = persistStore(store);
 
 persistor.subscribe(() => {

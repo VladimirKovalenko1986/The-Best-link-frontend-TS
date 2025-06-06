@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchLinks, addLink, deleteLink, editLink } from './operations.ts';
 import { logOut } from '../auth/operations.ts';
-// import { selectTextFilter } from "../filtersSlice.js";
+import type { PayloadAction } from '@reduxjs/toolkit';
 
 const slice = createSlice({
   name: 'links',

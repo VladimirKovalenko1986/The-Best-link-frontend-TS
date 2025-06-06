@@ -1,13 +1,13 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
-import { refreshUser } from '../auth/operations.ts';
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
+import { refreshUser } from "../auth/operations.js";
 
-axios.defaults.baseURL = 'https://the-best-link-backend.onrender.com';
+axios.defaults.baseURL = "https://the-best-link-backend.onrender.com";
 axios.defaults.withCredentials = true;
 
 export const fetchLinks = createAsyncThunk(
-  'fetchLinks',
-  async ({ page = 1, limit = 10, filter = '' }, thunkAPI) => {
+  "fetchLinks",
+  async ({ page = 1, limit = 10, filter = "" }, thunkAPI) => {
     try {
       const response = await axios.get(`/links`, {
         params: { page, limit, nameType: filter },
@@ -21,7 +21,7 @@ export const fetchLinks = createAsyncThunk(
 );
 
 export const addLink = createAsyncThunk(
-  'addLink',
+  "addLink",
   async (linkData, thunkAPI) => {
     const state = thunkAPI.getState();
     let token = state.auth.token;
@@ -32,24 +32,24 @@ export const addLink = createAsyncThunk(
         const refreshResult = await thunkAPI.dispatch(refreshUser()).unwrap();
         token = refreshResult.token;
       } catch (error) {
-        return thunkAPI.rejectWithValue('Token refresh failed');
+        return thunkAPI.rejectWithValue("Token refresh failed");
       }
     }
 
     const formData = new FormData();
-    formData.append('nameType', linkData.nameType);
-    formData.append('link', linkData.link);
-    formData.append('nameLink', linkData.nameLink);
-    formData.append('textLink', linkData.textLink);
+    formData.append("nameType", linkData.nameType);
+    formData.append("link", linkData.link);
+    formData.append("nameLink", linkData.nameLink);
+    formData.append("textLink", linkData.textLink);
     if (linkData.poster) {
-      formData.append('poster', linkData.poster);
+      formData.append("poster", linkData.poster);
     }
 
     try {
-      const response = await axios.post('/links', formData, {
+      const response = await axios.post("/links", formData, {
         headers: {
           Authorization: `Bearer ${token}`,
-          'Content-Type': 'multipart/form-data',
+          "Content-Type": "multipart/form-data",
         },
         withCredentials: true,
       });
@@ -62,7 +62,7 @@ export const addLink = createAsyncThunk(
 );
 
 export const deleteLink = createAsyncThunk(
-  'deleteLink',
+  "deleteLink",
   async (linkId, thunkAPI) => {
     try {
       await axios.delete(`/links/${linkId}`);
@@ -74,13 +74,13 @@ export const deleteLink = createAsyncThunk(
 );
 
 export const editLink = createAsyncThunk(
-  'editeLink',
+  "editeLink",
   async ({ linkId, linkData }, thunkAPI) => {
     const state = thunkAPI.getState();
     const token = state.auth.token;
 
     if (!token) {
-      return thunkAPI.rejectWithValue('No access token available');
+      return thunkAPI.rejectWithValue("No access token available");
     }
 
     try {
@@ -88,17 +88,17 @@ export const editLink = createAsyncThunk(
       const formData = new FormData();
 
       // 2. Додаємо поля (текстові)
-      formData.append('nameType', linkData.nameType);
-      formData.append('link', linkData.link);
-      formData.append('nameLink', linkData.nameLink);
-      formData.append('textLink', linkData.textLink);
+      formData.append("nameType", linkData.nameType);
+      formData.append("link", linkData.link);
+      formData.append("nameLink", linkData.nameLink);
+      formData.append("textLink", linkData.textLink);
       // 3. Якщо є файл, додаємо
       if (linkData.poster) {
-        formData.append('poster', linkData.poster);
+        formData.append("poster", linkData.poster);
       }
       const response = await axios.patch(`/links/${linkId}`, formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`, // ✅ Додаємо `Authorization`
         },
         withCredentials: true, // ✅ Передаємо cookies

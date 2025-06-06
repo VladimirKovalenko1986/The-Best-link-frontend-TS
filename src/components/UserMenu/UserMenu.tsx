@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { selectLoadingLogout, selectUser } from '../../redux/auth/selector.ts';
+import { selectLoadingLogout, selectUser } from '../../redux/auth/selectors.ts';
 import { logOut } from '../../redux/auth/operations.ts';
 import InfinitySpinLoading from '../InfinitySpinLoading/InfinitySpinLoading.tsx';
 import css from './UserMenu.module.css';

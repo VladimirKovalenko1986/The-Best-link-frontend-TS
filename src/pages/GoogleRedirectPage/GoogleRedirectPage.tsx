@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { loginWithGoogle } from '../../redux/auth/operations.ts';
 import { toast } from 'react-toastify';
-import { selectIsLoggedIn, selectUser } from '../../redux/auth/selector.ts';
+import { selectIsLoggedIn, selectUser } from '../../redux/auth/selectors.ts';
 import ProgressBarLoading from '../../components/ProgressBarLoading/ProgressBarLoading.tsx';
 
 export default function GoogleRedirectPage() {

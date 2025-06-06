@@ -10,7 +10,7 @@ import {
   fetchGoogleOAuthUrl,
   loginWithGoogle,
 } from './operations.ts';
-import type { RegistrationResponse } from './auth.type.ts';
+import type { ResponseUser, GoogleLoginResponse } from './auth.type.ts';
 
 const authSlice = createSlice({
   name: 'auth',
@@ -46,7 +46,7 @@ const authSlice = createSlice({
       })
       .addCase(
         registration.fulfilled,
-        (state, action: PayloadAction<RegistrationResponse>): void => {
+        (state, action: PayloadAction<ResponseUser>): void => {
           state.user = action.payload.data.user;
           state.token = action.payload.data.accessToken || null;
           state.isLoggedIn = true;
@@ -64,14 +64,17 @@ const authSlice = createSlice({
         state.loading.login = true;
         state.error = null;
       })
-      .addCase(logIn.fulfilled, (state, action) => {
-        state.user = action.payload.data.user;
-        state.token = action.payload.data.accessToken;
-        state.isLoggedIn = true;
-        state.loading.login = false;
-      })
+      .addCase(
+        logIn.fulfilled,
+        (state, action: PayloadAction<ResponseUser>): void => {
+          state.user = action.payload.data.user;
+          state.token = action.payload.data.accessToken;
+          state.isLoggedIn = true;
+          state.loading.login = false;
+        }
+      )
       .addCase(logIn.rejected, (state, action) => {
-        state.error = action.payload;
+        state.error = action.payload ?? 'Unknown error';
         state.loading.login = false;
       })
       .addCase(logOut.pending, state => {
@@ -85,19 +88,22 @@ const authSlice = createSlice({
         state.loading.logout = false;
       })
       .addCase(logOut.rejected, (state, action) => {
-        state.error = action.payload;
+        state.error = action.payload ?? 'Unknown error';
         state.loading.logout = false;
       })
       .addCase(refreshUser.pending, state => {
         state.isRefreshing = true;
       })
-      .addCase(refreshUser.fulfilled, (state, action) => {
-        state.user = action.payload.data.user;
-        state.token = action.payload.data.accessToken;
-        state.isLoggedIn = true;
-        state.isRefreshing = false;
-      })
-      .addCase(refreshUser.rejected, state => {
+      .addCase(
+        refreshUser.fulfilled,
+        (state, action: PayloadAction<ResponseUser>): void => {
+          state.user = action.payload.data.user;
+          state.token = action.payload.data.accessToken;
+          state.isLoggedIn = true;
+          state.isRefreshing = false;
+        }
+      )
+      .addCase(refreshUser.rejected, (state): void => {
         state.user = { name: '', email: '', photo: '' };
         state.token = null;
         state.isLoggedIn = false;
@@ -113,8 +119,8 @@ const authSlice = createSlice({
         state.message =
           'If this email is registered, you will receive reset instructions.';
       })
-      .addCase(sendEmailResetPassword.rejected, (state, action) => {
-        state.error = action.payload;
+      .addCase(sendEmailResetPassword.rejected, (state, action): void => {
+        state.error = action.payload ?? 'Unknown error';
         state.loading.resetPassword = false;
         state.message = '';
       })
@@ -125,8 +131,8 @@ const authSlice = createSlice({
       .addCase(resetPassword.fulfilled, state => {
         state.loading.resetPassword = false;
       })
-      .addCase(resetPassword.rejected, (state, action) => {
-        state.error = action.payload;
+      .addCase(resetPassword.rejected, (state, action): void => {
+        state.error = action.payload ?? 'Unknown error';
         state.loading.resetPassword = false;
       })
       .addCase(fetchGoogleOAuthUrl.pending, state => {
@@ -136,22 +142,29 @@ const authSlice = createSlice({
       .addCase(fetchGoogleOAuthUrl.fulfilled, state => {
         state.loading.registrationGoogle = false;
       })
-      .addCase(fetchGoogleOAuthUrl.rejected, (state, action) => {
-        state.error = action.payload;
+      .addCase(fetchGoogleOAuthUrl.rejected, (state, action): void => {
+        state.error = action.payload ?? 'Unknown error';
         state.loading.registrationGoogle = false;
       })
       .addCase(loginWithGoogle.pending, state => {
         state.loading.registrationGoogle = true;
         state.error = null;
       })
-      .addCase(loginWithGoogle.fulfilled, (state, action) => {
-        state.user = action.payload?.user || { name: '', email: '', photo: '' };
-        state.token = action.payload?.accessToken;
-        state.isLoggedIn = true;
-        state.loading.registrationGoogle = false;
-      })
+      .addCase(
+        loginWithGoogle.fulfilled,
+        (state, action: PayloadAction<GoogleLoginResponse>): void => {
+          state.user = action.payload?.user || {
+            name: '',
+            email: '',
+            photo: '',
+          };
+          state.token = action.payload?.accessToken;
+          state.isLoggedIn = true;
+          state.loading.registrationGoogle = false;
+        }
+      )
       .addCase(loginWithGoogle.rejected, (state, action) => {
-        state.error = action.payload;
+        state.error = action.payload ?? 'Unknown error';
         state.loading.registrationGoogle = false;
       }),
 });
