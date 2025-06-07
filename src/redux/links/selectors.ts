@@ -1,24 +1,31 @@
-export const selectLinks = (state) => state.links.items;
+import type { RootState } from '../types';
 
-export const selectLoadingAllLinks = (state) => state.links.loading.allLinks;
+export const selectLinks = (state: RootState) => state.links.items;
 
-export const selectLoadingAddLink = (state) => state.links.loading.addLink;
+export const selectLoadingAllLinks = (state: RootState) =>
+  state.links.loading.allLinks;
 
-export const selectLoadingDeleteLink = (state) =>
+export const selectLoadingAddLink = (state: RootState) =>
+  state.links.loading.addLink;
+
+export const selectLoadingDeleteLink = (state: RootState) =>
   state.links.loading.deleteLink;
 
-export const selectLoadingEditLink = (state) => state.links.loading.editLink;
+export const selectLoadingEditLink = (state: RootState) =>
+  state.links.loading.editLink;
 
-export const selectError = (state) => state.links.error;
+export const selectError = (state: RootState) => state.links.error;
 
-export const selectIsOpen = (state) => state.links.modal.isOpen;
+export const selectIsOpen = (state: RootState) => state.links.modal.isOpen;
 
-export const selectModalLinkId = (state) => state.links.modal.modalLinkId;
+export const selectModalLinkId = (state: RootState) =>
+  state.links.modal.modalLinkId;
 
-export const selectModalType = (state) => state.links.modal.modalType;
+export const selectModalType = (state: RootState) =>
+  state.links.modal.modalType;
 
-export const selectHasNextPage = (state) => state.links.hasNextPage;
+export const selectHasNextPage = (state: RootState) => state.links.hasNextPage;
 
-export const selectCurrentPage = (state) => state.links.currentPage;
+export const selectCurrentPage = (state: RootState) => state.links.currentPage;
 
-export const selectFilter = (state) => state.links.filter;
+export const selectFilter = (state: RootState) => state.links.filter;

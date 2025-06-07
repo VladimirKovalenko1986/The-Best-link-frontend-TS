@@ -17,6 +17,7 @@ import { setAuthHeader } from './auth/operations.ts';
 import type { Reducer } from '@reduxjs/toolkit';
 import type { AuthState } from './auth/auth.type.ts';
 import type { PersistPartial } from 'redux-persist/es/persistReducer';
+import type { LinksState } from './links/links.type.ts';
 
 const authPersistConfig = {
   key: 'auth',
@@ -34,10 +35,11 @@ const persistedAuthReducer: Reducer<AuthState & PersistPartial> =
   persistReducer(authPersistConfig, authReducer);
 
 const persistedThemeReducer = persistReducer(themePersistConfig, themeReducer);
+const linksReducer: Reducer<LinksState> = taskReducer;
 
 export const store = configureStore({
   reducer: {
-    links: taskReducer,
+    links: linksReducer,
     auth: persistedAuthReducer,
     theme: persistedThemeReducer,
   },
@@ -49,7 +51,6 @@ export const store = configureStore({
     }),
 });
 
-export type RootState = ReturnType<typeof store.getState>;
 export const persistor = persistStore(store);
 
 persistor.subscribe(() => {

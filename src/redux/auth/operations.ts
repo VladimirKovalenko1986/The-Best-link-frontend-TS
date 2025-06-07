@@ -1,7 +1,7 @@
 import axios, { AxiosError } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import type { ResponseUser, UserDto, GoogleLoginResponse } from './auth.type';
-import type { RootState } from '../store';
+import type { RootState } from '../types';
 
 axios.defaults.baseURL = 'https://the-best-link-backend.onrender.com';
 axios.defaults.withCredentials = true;

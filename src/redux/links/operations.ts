@@ -7,7 +7,7 @@ import type {
   Link,
   EditLinkParams,
 } from './links.type.ts';
-import type { RootState } from '../store';
+import type { RootState } from '../types.ts';
 
 axios.defaults.baseURL = 'https://the-best-link-backend.onrender.com';
 axios.defaults.withCredentials = true;
