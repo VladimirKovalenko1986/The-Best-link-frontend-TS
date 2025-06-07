@@ -37,6 +37,11 @@ export default function FilterLink() {
               <option value="React">React</option>
               <option value="TS">TS</option>
               <option value="Node.js">Node.js</option>
+              <option value="Video/HTML&CSS">Video/HTML&CSS</option>
+              <option value="Video/JS">Video/JS</option>
+              <option value="Video/React">Video/React</option>
+              <option value="Video/TS">Video/TS</option>
+              <option value="Video/Node.js">Video/Node.js</option>
             </Field>
           </Form>
         )}
