@@ -21,11 +21,6 @@ export type Link = {
   poster?: string;
 };
 
-export type EditLinkParams = {
-  linkId: string;
-  linkData: Partial<Omit<Link, '_id'>> & { poster?: string };
-};
-
 export type LinksState = {
   items: Link[];
   loading: {
@@ -54,4 +49,14 @@ export type FetchLinksParams = {
 export type FetchLinksResponse = {
   data: Link[];
   hasNextPage: boolean;
+};
+
+export type LinkDto = Omit<Link, '_id'>;
+export type LinkEdit = Partial<Omit<Link, '_id'>> & {
+  poster?: string | File;
+};
+
+export type EditLinkParams = {
+  linkId: string;
+  linkData: LinkEdit;
 };

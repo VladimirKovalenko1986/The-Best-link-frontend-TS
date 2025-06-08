@@ -11,8 +11,12 @@ import {
 import RotatingSquareLoading from '../RotatingSquareLoading/RotatingSquareLoading.tsx';
 import { editLink } from '../../redux/links/operations.ts';
 import { closeModal } from '../../redux/links/slice.ts';
-import * as Yup from 'yup';
 import { useId, useRef, useMemo } from 'react';
+import type { AppDispatch } from '../../redux/types.ts';
+import type { LinkEdit } from '../../redux/links/links.type.ts';
+import type { FormikHelpers } from 'formik';
+import type { EditLinkFormValues } from './edit.type.ts';
+import { editLinkSchema } from './edit.type.ts';
 import css from './FormEditor.module.css';
 
 export default function FormEditor() {
@@ -20,71 +24,52 @@ export default function FormEditor() {
   const error = useSelector(selectError);
   const id = useSelector(selectModalLinkId);
   const links = useSelector(selectLinks);
-  const dispatch = useDispatch();
-  const fileInputRef = useRef('');
+  const dispatch = useDispatch<AppDispatch>();
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  const handleClose = () => {
+  const handleClose = (): void => {
     dispatch(closeModal());
   };
 
-  // Знаходимо поточний лінк за id
+  // Find current link from id
   const currentLink = useMemo(
     () => links.find(link => link._id === id),
     [links, id]
   );
 
-  const addLinkSchema = Yup.object().shape({
-    nameType: Yup.string()
-      .oneOf([
-        'HTML&CSS',
-        'JS',
-        'React',
-        'TS',
-        'Node.js',
-        'Video/HTML&CSS',
-        'Video/JS',
-        'Video/React',
-        'Video/TS',
-        'Video/Node.js',
-      ])
-      .required('Required'),
-
-    link: Yup.string()
-      .min(5, 'Too Short!')
-      .max(200, 'Too Long!')
-      .required('Required'),
-
-    nameLink: Yup.string()
-      .min(5, 'Too Short!')
-      .max(200, 'Too Long!')
-      .required('Required'),
-
-    textLink: Yup.string()
-      .min(5, 'Too Short!')
-      .max(200, 'Too Long!')
-      .required('Required'),
-
-    poster: Yup.mixed().notRequired(),
-  });
-
-  const initialValues = useMemo(
+  const initialValues: EditLinkFormValues = useMemo(
     () => ({
       nameType: currentLink?.nameType || 'HTML&CSS',
       link: currentLink?.link || '',
       nameLink: currentLink?.nameLink || '',
       textLink: currentLink?.textLink || '',
-      poster: '',
+      poster: null,
     }),
     [currentLink]
   );
 
-  const handleSubmit = (values, actions) => {
-    dispatch(editLink({ linkId: id, linkData: values }))
+  const handleSubmit = (
+    values: EditLinkFormValues,
+    actions: FormikHelpers<EditLinkFormValues>
+  ) => {
+    if (!id) return;
+
+    // Видаляємо файл, бо сервер очікує URL (string)
+    const { poster, ...rest } = values;
+
+    const payload: LinkEdit = {
+      ...rest,
+      poster: typeof poster === 'string' ? poster : undefined,
+    };
+
+    dispatch(editLink({ linkId: id, linkData: payload }))
       .unwrap()
       .then(() => {
         toast.success('You have successfully edited the link!');
         actions.resetForm();
-        fileInputRef.current.value = '';
+        if (fileInputRef.current) {
+          fileInputRef.current.value = '';
+        }
         handleClose();
       })
       .catch(err => {
@@ -102,11 +87,11 @@ export default function FormEditor() {
     <div className={css.conteiner}>
       <TitleLink text="Edit Link" />
       {loadingEdit && <RotatingSquareLoading />}
-      <Formik
+      <Formik<EditLinkFormValues>
         enableReinitialize
         initialValues={initialValues}
         onSubmit={handleSubmit}
-        validationSchema={addLinkSchema}
+        validationSchema={editLinkSchema}
       >
         {({ setFieldValue }) => (
           <Form className={css.form}>
@@ -191,8 +176,11 @@ export default function FormEditor() {
                 accept="image/*"
                 ref={fileInputRef}
                 onChange={event => {
-                  const file = event.currentTarget.files[0];
-                  setFieldValue('poster', file);
+                  const files = event.currentTarget.files;
+                  if (files && files.length > 0) {
+                    const file = files[0];
+                    setFieldValue('poster', file);
+                  }
                 }}
               />
             </div>

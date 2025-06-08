@@ -9,63 +9,42 @@ import {
   selectFilter,
 } from '../../redux/links/selectors.ts';
 import FidgetSpinnerLoading from '../FidgetSpinnerLoading/FidgetSpinnerLoading.tsx';
-import * as Yup from 'yup';
 import { useId, useRef } from 'react';
 import { setPage } from '../../redux/links/slice.ts';
 import { refreshUser } from '../../redux/auth/operations.ts';
+import type { AppDispatch } from '../../redux/types.ts';
+import type { FormikHelpers } from 'formik';
+import type { LinkEdit } from '../../redux/links/links.type.ts';
+import type { AddLinkFormValues } from './addLink.type.ts';
+import { addLinkSchema } from './addLink.type.ts';
 import css from './LinkEditor.module.css';
 
 export default function LinkEditor() {
   const loadingAddLink = useSelector(selectLoadingAddLink);
   const error = useSelector(selectError);
-  const dispatch = useDispatch();
-  const fileInputRef = useRef('');
+  const dispatch = useDispatch<AppDispatch>();
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const filter = useSelector(selectFilter);
 
-  const addLinkSchema = Yup.object().shape({
-    nameType: Yup.string()
-      .oneOf([
-        'HTML&CSS',
-        'JS',
-        'React',
-        'TS',
-        'Node.js',
-        'Video/HTML&CSS',
-        'Video/JS',
-        'Video/React',
-        'Video/TS',
-        'Video/Node.js',
-      ])
-      .required('Required'),
-
-    link: Yup.string()
-      .min(5, 'Too Short!')
-      .max(200, 'Too Long!')
-      .required('Required'),
-
-    nameLink: Yup.string()
-      .min(5, 'Too Short!')
-      .max(200, 'Too Long!')
-      .required('Required'),
-
-    textLink: Yup.string()
-      .min(5, 'Too Short!')
-      .max(200, 'Too Long!')
-      .required('Required'),
-
-    poster: Yup.string().notRequired(),
-  });
-
-  const initialValues = {
+  const initialValues: AddLinkFormValues = {
     nameType: 'HTML&CSS',
     link: '',
     nameLink: '',
     textLink: '',
-    poster: '',
+    poster: null,
   };
 
-  const handleSubmit = (values, actions) => {
-    dispatch(addLink(values))
+  const handleSubmit = (
+    values: AddLinkFormValues,
+    actions: FormikHelpers<AddLinkFormValues>
+  ): void => {
+    const { poster, ...rest } = values;
+
+    const payload: LinkEdit = {
+      ...rest,
+      poster: typeof poster === 'string' ? poster : undefined,
+    };
+    dispatch(addLink(payload))
       .unwrap()
       .then(() => {
         toast.success('Add new link!');
@@ -74,7 +53,9 @@ export default function LinkEditor() {
 
         // Очищення форми
         actions.resetForm();
-        fileInputRef.current.value = ''; // Очищення інпуту файлу
+        if (fileInputRef.current) {
+          fileInputRef.current.value = '';
+        }
       })
       .catch(async err => {
         console.log(err);
@@ -82,12 +63,12 @@ export default function LinkEditor() {
           try {
             await dispatch(refreshUser()).unwrap();
             // Після оновлення токена, повторюємо спробу додати лінк
-            await dispatch(addLink(values)).unwrap();
+            await dispatch(addLink(payload)).unwrap();
             toast.success('Link added after refreshing token!');
             dispatch(setPage(1));
             dispatch(fetchLinks({ page: 1, limit: 10, filter }));
             actions.resetForm();
-            fileInputRef.current.value = '';
+            (fileInputRef.current as HTMLInputElement).value = '';
           } catch (refreshError) {
             console.log(refreshError);
             toast.error('Session expired. Please login again.');
@@ -108,7 +89,7 @@ export default function LinkEditor() {
     <div className={css.conteiner}>
       {loadingAddLink && <FidgetSpinnerLoading />}
       <TitleLink text="Add new link" />
-      <Formik
+      <Formik<AddLinkFormValues>
         initialValues={initialValues}
         onSubmit={handleSubmit}
         validationSchema={addLinkSchema}
@@ -117,7 +98,7 @@ export default function LinkEditor() {
           <Form className={css.form}>
             <div className={css.wrapper}>
               <label className={css.label} htmlFor={nameTypeId}>
-                nameType:{' '}
+                nameType:
               </label>
               <Field as="select" name="nameType" id={nameTypeId}>
                 <option value="">All</option>
@@ -196,8 +177,11 @@ export default function LinkEditor() {
                 accept="image/*"
                 ref={fileInputRef}
                 onChange={event => {
-                  const file = event.currentTarget.files[0];
-                  setFieldValue('poster', file);
+                  const files = event.currentTarget.files;
+                  if (files && files.length > 0) {
+                    const file = files[0];
+                    setFieldValue('poster', file);
+                  }
                 }}
               />
             </div>

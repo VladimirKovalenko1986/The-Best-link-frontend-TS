@@ -6,6 +6,7 @@ import type {
   FetchLinksResponse,
   Link,
   EditLinkParams,
+  LinkEdit,
 } from './links.type.ts';
 import type { RootState } from '../types.ts';
 
@@ -36,7 +37,7 @@ export const fetchLinks = createAsyncThunk<
 
 export const addLink = createAsyncThunk<
   Link,
-  Link,
+  LinkEdit,
   { state: RootState; rejectValue: string }
 >('addLink', async (linkData, thunkAPI) => {
   const state = thunkAPI.getState();
@@ -54,10 +55,11 @@ export const addLink = createAsyncThunk<
   }
 
   const formData = new FormData();
-  formData.append('nameType', linkData.nameType);
-  formData.append('link', linkData.link);
-  formData.append('nameLink', linkData.nameLink);
-  formData.append('textLink', linkData.textLink);
+  formData.append('nameType', linkData.nameType ?? '');
+  formData.append('link', linkData.link ?? '');
+  formData.append('nameLink', linkData.nameLink ?? '');
+  formData.append('textLink', linkData.textLink ?? '');
+
   if (linkData.poster) {
     formData.append('poster', linkData.poster);
   }
