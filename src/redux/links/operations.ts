@@ -7,6 +7,7 @@ import type {
   Link,
   EditLinkParams,
   LinkEdit,
+  EditLinkResponse,
 } from './links.type.ts';
 import type { RootState } from '../types.ts';
 
@@ -122,14 +123,18 @@ export const editLink = createAsyncThunk<
     if (linkData.poster) {
       formData.append('poster', linkData.poster);
     }
-    const response = await axios.patch<Link>(`/links/${linkId}`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-        Authorization: `Bearer ${token}`, // ✅ Add `Authorization`
-      },
-      withCredentials: true, // ✅ Forward cookies
-    });
-    return response.data;
+    const response = await axios.patch<EditLinkResponse>(
+      `/links/${linkId}`,
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${token}`, // ✅ Add `Authorization`
+        },
+        withCredentials: true, // ✅ Forward cookies
+      }
+    );
+    return response.data.data;
   } catch (error) {
     const err = error as AxiosError<{ message: string }>;
     return thunkAPI.rejectWithValue(err.response?.data.message || 'Edit link');

@@ -10,12 +10,13 @@ import { deleteLink } from '../../redux/links/operations.ts';
 import clsx from 'clsx';
 import { selectTheme } from '../../redux/theme/selectors.ts';
 import RevolvingDotLoading from '../RevolvingDotLoading/RevolvingDotLoading.tsx';
-import { toast } from 'react-toastify'; // ✅ Додано імпорт
+import { toast } from 'react-toastify';
+import type { AppDispatch } from '../../redux/types.ts';
 import css from './ModalDeleteLink.module.css';
 
-export default function ModalDeleteLink() {
-  const dispatch = useDispatch();
-  const [modalRoot, setModalRoot] = useState(null);
+const ModalDeleteLink = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const [modalRoot, setModalRoot] = useState<HTMLElement | null>(null);
   const id = useSelector(selectModalLinkId);
   const theme = useSelector(selectTheme);
   const loadingDeleteLink = useSelector(selectLoadingDeleteLink);
@@ -34,6 +35,8 @@ export default function ModalDeleteLink() {
   if (!modalRoot) return null;
 
   const handleDelete = () => {
+    if (!id) return;
+
     dispatch(deleteLink(id))
       .unwrap()
       .then(() => {
@@ -74,4 +77,6 @@ export default function ModalDeleteLink() {
     </div>,
     modalRoot
   );
-}
+};
+
+export default ModalDeleteLink;

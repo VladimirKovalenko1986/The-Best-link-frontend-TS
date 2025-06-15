@@ -1,6 +1,6 @@
 import { FidgetSpinner } from 'react-loader-spinner';
 
-export default function FidgetSpinnerLoading() {
+const FidgetSpinnerLoading = () => {
   return (
     <FidgetSpinner
       visible={true}
@@ -11,4 +11,6 @@ export default function FidgetSpinnerLoading() {
       wrapperClass="fidget-spinner-wrapper"
     />
   );
-}
+};
+
+export default FidgetSpinnerLoading;

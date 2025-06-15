@@ -21,6 +21,12 @@ export type Link = {
   poster?: string;
 };
 
+export type EditLinkResponse = {
+  status: number;
+  message: string;
+  data: Link;
+};
+
 export type LinksState = {
   items: Link[];
   loading: {

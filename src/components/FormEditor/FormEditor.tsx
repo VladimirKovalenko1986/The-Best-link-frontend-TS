@@ -19,7 +19,7 @@ import type { EditLinkFormValues } from './edit.type.ts';
 import { editLinkSchema } from './edit.type.ts';
 import css from './FormEditor.module.css';
 
-export default function FormEditor() {
+const FormEditor = () => {
   const loadingEdit = useSelector(selectLoadingEditLink);
   const error = useSelector(selectError);
   const id = useSelector(selectModalLinkId);
@@ -199,4 +199,6 @@ export default function FormEditor() {
       </Formik>
     </div>
   );
-}
+};
+
+export default FormEditor;

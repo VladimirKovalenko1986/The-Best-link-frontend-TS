@@ -1,4 +1,3 @@
-import css from './App.module.css';
 import { lazy } from 'react';
 import Layout from '../Layout/Layout.tsx';
 import { Route, Routes } from 'react-router-dom';
@@ -10,6 +9,7 @@ import SendEmailResetPassword from '../SendEmailResetPassword/SendEmailResetPass
 import { useEffect } from 'react';
 import { selectTheme } from '../../redux/theme/selectors.ts';
 import DiscussLoading from '../DiscussLoading/DiscussLoading.tsx';
+import css from './App.module.css';
 
 const HomePage = lazy(() => import('../../pages/HomePage/HomePage.tsx'));
 const GoogleRedirectPage = lazy(
@@ -27,13 +27,13 @@ const NotFoundPage = lazy(
   () => import('../../pages/NotFoundPage/NotFoundPage.tsx')
 );
 
-function App() {
+const App = () => {
   const isRefreshing = useSelector(selectIsRefreshing);
   const theme = useSelector(selectTheme);
 
   useEffect(() => {
-    document.body.classList.remove('light', 'dark'); //delete class theam
-    document.body.classList.add(theme); //add class theam
+    document.body.classList.remove('light', 'dark');
+    document.body.classList.add(theme);
   }, [theme]);
 
   return (
@@ -88,6 +88,6 @@ function App() {
       </Layout>
     </div>
   );
-}
+};
 
 export default App;

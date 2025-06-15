@@ -7,7 +7,7 @@ import { fetchLinks } from '../../redux/links/operations.ts';
 import type { AppDispatch } from '../../redux/types.ts';
 import css from './FilterLink.module.css';
 
-export default function FilterLink() {
+const FilterLink = () => {
   const dispatch = useDispatch<AppDispatch>();
   const filter = useSelector(selectFilter);
   const nameTypeId = useId();
@@ -53,4 +53,6 @@ export default function FilterLink() {
       </Formik>
     </div>
   );
-}
+};
+
+export default FilterLink;

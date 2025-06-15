@@ -11,10 +11,11 @@ import { fetchLinks } from '../../redux/links/operations.ts';
 import { setPage } from '../../redux/links/slice.ts';
 import FilterLink from '../FilterLink/FilterLink.tsx';
 import ScrollToTopButton from '../ScrollToTopButton/ScrollToTopButton.tsx';
+import type { AppDispatch } from '../../redux/types.ts';
 import css from './LinksList.module.css';
 
-export default function LinksList() {
-  const dispatch = useDispatch();
+const LinksList = () => {
+  const dispatch = useDispatch<AppDispatch>();
   const links = useSelector(selectLinks);
   const loadingAllLinks = useSelector(selectLoadingAllLinks);
   const filter = useSelector(selectFilter);
@@ -38,4 +39,6 @@ export default function LinksList() {
       <ScrollToTopButton />
     </div>
   );
-}
+};
+
+export default LinksList;

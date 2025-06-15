@@ -11,16 +11,17 @@ import { fetchLinks } from '../../redux/links/operations.ts';
 import DiscussLoading from '../DiscussLoading/DiscussLoading.tsx';
 import { useRef, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import type { AppDispatch } from '../../redux/types.ts';
 import css from './LoadeMoreButton.module.css';
 
-export default function LoadeMoreButton() {
-  const dispatch = useDispatch();
+const LoadeMoreButton = () => {
+  const dispatch = useDispatch<AppDispatch>();
   const currentPage = useSelector(selectCurrentPage);
   const hasNextPage = useSelector(selectHasNextPage);
   const filter = useSelector(selectFilter);
   const links = useSelector(selectLinks);
   const loadeAllLinks = useSelector(selectLoadingAllLinks);
-  const buttonRef = useRef(null);
+  const buttonRef = useRef<HTMLDivElement | null>(null);
 
   const [isLoadMoreClicked, setIsLoadMoreClicked] = useState(false);
 
@@ -36,10 +37,10 @@ export default function LoadeMoreButton() {
       buttonRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
     }
 
-    // Показуємо toast тільки після натискання кнопки і коли лінки закінчуються
+    // See toast only after click button and when links ands
     if (!hasNextPage && isLoadMoreClicked) {
       toast.info('Link is finished! 🚀');
-      setIsLoadMoreClicked(false); // Скидаємо стан, щоб не показувати toast повторно
+      setIsLoadMoreClicked(false); // Reset syan, that not see toast replay
     }
   }, [loadeAllLinks, hasNextPage, isLoadMoreClicked]);
 
@@ -58,4 +59,6 @@ export default function LoadeMoreButton() {
       </div>
     )
   );
-}
+};
+
+export default LoadeMoreButton;

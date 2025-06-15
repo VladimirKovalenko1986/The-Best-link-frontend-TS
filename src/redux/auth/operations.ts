@@ -1,6 +1,11 @@
 import axios, { AxiosError } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import type { ResponseUser, UserDto, GoogleLoginResponse } from './auth.type';
+import type {
+  ResponseUser,
+  LoginDto,
+  UserDto,
+  GoogleLoginResponse,
+} from './auth.type';
 import type { RootState } from '../types';
 
 axios.defaults.baseURL = 'https://the-best-link-backend.onrender.com';
@@ -55,7 +60,7 @@ export const registration = createAsyncThunk<
 
 export const logIn = createAsyncThunk<
   ResponseUser,
-  UserDto,
+  LoginDto,
   { rejectValue: string }
 >('auth/login', async (userInfo, thunkAPI) => {
   try {

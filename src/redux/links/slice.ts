@@ -120,16 +120,13 @@ const slice = createSlice({
       })
       .addCase(editLink.fulfilled, (state, action: PayloadAction<Link>) => {
         const updatedLink = action.payload;
-        const index = state.items.findIndex(
-          item => item._id === updatedLink._id
+        state.items = state.items.map(item =>
+          item._id === updatedLink._id ? updatedLink : item
         );
-
-        if (index !== -1) {
-          state.items[index] = updatedLink;
-        }
         state.error = null;
         state.loading.editLink = false;
       })
+
       .addCase(editLink.rejected, (state, action) => {
         state.error = action.payload || 'Failed to edit link';
         state.loading.editLink = false;

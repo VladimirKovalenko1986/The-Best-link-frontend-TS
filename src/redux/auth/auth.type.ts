@@ -18,6 +18,11 @@ export type UserDto = {
   photo?: File;
 };
 
+export type LoginDto = {
+  email: string;
+  password: string;
+};
+
 export type GoogleLoginResponse = {
   user: User;
   accessToken: string;

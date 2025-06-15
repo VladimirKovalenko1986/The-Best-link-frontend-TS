@@ -7,7 +7,7 @@ const getNavLinkClass: NavLinkProps['className'] = ({ isActive }) => {
   return clsx(css.link, isActive && css.active);
 };
 
-export default function AuthNav() {
+const AuthNav = () => {
   return (
     <div>
       <NavLink to="/registration" className={getNavLinkClass}>
@@ -18,4 +18,6 @@ export default function AuthNav() {
       </NavLink>
     </div>
   );
-}
+};
+
+export default AuthNav;

@@ -1,6 +1,6 @@
 import { Hourglass } from 'react-loader-spinner';
 
-export default function HourglassLoading() {
+const HourglassLoading = () => {
   return (
     <Hourglass
       visible={true}
@@ -12,4 +12,6 @@ export default function HourglassLoading() {
       colors={['#306cce', '#72a1ed']}
     />
   );
-}
+};
+
+export default HourglassLoading;

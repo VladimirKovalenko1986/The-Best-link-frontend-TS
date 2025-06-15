@@ -3,9 +3,10 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import DiscussLoading from '../DiscussLoading/DiscussLoading.tsx';
 import AppBar from '../AppBar/AppBar.tsx';
+import type { FC, ReactNode } from 'react';
 import css from './Layout.module.css';
 
-export default function Layout({ children }) {
+const Layout: FC<{ children: ReactNode }> = ({ children }) => {
   return (
     <div className={css.conteiner}>
       <AppBar />
@@ -23,4 +24,6 @@ export default function Layout({ children }) {
       <Suspense fallback={<DiscussLoading />}>{children}</Suspense>
     </div>
   );
-}
+};
+
+export default Layout;

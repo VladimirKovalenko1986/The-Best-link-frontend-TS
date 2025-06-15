@@ -2,17 +2,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { openModal } from '../../redux/links/slice.ts';
 import ModalDeleteLink from '../ModalDeleteLink/ModalDeleteLink.tsx';
 import ModalEditeLink from '../ModalEditeLink/ModalEditeLink.tsx';
-import css from './LinkItem.module.css';
+import type { LinkItemProps } from './linkItem.type.ts';
 import {
   selectIsOpen,
   selectModalLinkId,
   selectModalType,
 } from '../../redux/links/selectors.ts';
+import type { AppDispatch } from '../../redux/types.ts';
+import css from './LinkItem.module.css';
 
-export default function LinkItem({
-  link: { _id, nameType, link, nameLink, textLink },
-}) {
-  const dispatch = useDispatch();
+const LinkItem = ({ link }: LinkItemProps) => {
+  const { _id, nameType, nameLink, link: href, textLink } = link;
+
+  const dispatch = useDispatch<AppDispatch>();
   const isOpen = useSelector(selectIsOpen);
   const modalLinkId = useSelector(selectModalLinkId);
   const modalType = useSelector(selectModalType);
@@ -21,7 +23,7 @@ export default function LinkItem({
     <div className={css.conteiner}>
       <p>{nameType}</p>
       <a
-        href={link}
+        href={href}
         className={css.link}
         target="_blank"
         rel="noopener noreferrer"
@@ -51,4 +53,6 @@ export default function LinkItem({
       </div>
     </div>
   );
-}
+};
+
+export default LinkItem;

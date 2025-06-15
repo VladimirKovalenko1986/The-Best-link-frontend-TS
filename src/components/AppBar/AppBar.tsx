@@ -9,7 +9,7 @@ import { useEffect } from 'react';
 import { refreshUser } from '../../redux/auth/operations.ts';
 import type { AppDispatch } from '../../redux/types.ts';
 
-export default function AppBar() {
+const AppBar = () => {
   const dispatch = useDispatch<AppDispatch>();
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
@@ -24,4 +24,6 @@ export default function AppBar() {
       {isLoggedIn ? <UserMenu /> : <AuthNav />}
     </header>
   );
-}
+};
+
+export default AppBar;

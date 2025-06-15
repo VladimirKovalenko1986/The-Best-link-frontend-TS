@@ -19,7 +19,7 @@ import type { AddLinkFormValues } from './addLink.type.ts';
 import { addLinkSchema } from './addLink.type.ts';
 import css from './LinkEditor.module.css';
 
-export default function LinkEditor() {
+const LinkEditor = () => {
   const loadingAddLink = useSelector(selectLoadingAddLink);
   const error = useSelector(selectError);
   const dispatch = useDispatch<AppDispatch>();
@@ -199,4 +199,6 @@ export default function LinkEditor() {
       </Formik>
     </div>
   );
-}
+};
+
+export default LinkEditor;

@@ -1,6 +1,6 @@
 import { Discuss } from 'react-loader-spinner';
 
-export default function DiscussLoading() {
+const DiscussLoading = () => {
   return (
     <Discuss
       visible={true}
@@ -14,4 +14,6 @@ export default function DiscussLoading() {
       >)}
     />
   );
-}
+};
+
+export default DiscussLoading;
