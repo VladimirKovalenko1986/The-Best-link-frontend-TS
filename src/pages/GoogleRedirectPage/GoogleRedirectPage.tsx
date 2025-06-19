@@ -5,9 +5,10 @@ import { loginWithGoogle } from '../../redux/auth/operations.ts';
 import { toast } from 'react-toastify';
 import { selectIsLoggedIn, selectUser } from '../../redux/auth/selectors.ts';
 import ProgressBarLoading from '../../components/ProgressBarLoading/ProgressBarLoading.tsx';
+import type { AppDispatch } from '../../redux/types.ts';
 
-export default function GoogleRedirectPage() {
-  const dispatch = useDispatch();
+const GoogleRedirectPage = () => {
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const isLoggedIn = useSelector(selectIsLoggedIn);
@@ -50,4 +51,6 @@ export default function GoogleRedirectPage() {
   }, [isLoggedIn, user, navigate]);
 
   return <ProgressBarLoading />;
-}
+};
+
+export default GoogleRedirectPage;

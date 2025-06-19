@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { SlArrowUp } from 'react-icons/sl';
 import css from './ScrollToTopButton.module.css';
 
-export default function ScrollToTopButton() {
+const ScrollToTopButton = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   // Відслідковування скролу
@@ -34,4 +34,6 @@ export default function ScrollToTopButton() {
       </button>
     )
   );
-}
+};
+
+export default ScrollToTopButton;

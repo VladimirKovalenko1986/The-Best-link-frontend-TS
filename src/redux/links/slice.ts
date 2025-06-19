@@ -71,8 +71,9 @@ const slice = createSlice({
           const isFirstPage = action.meta.arg.page === 1;
 
           state.items = isFirstPage
-            ? action.payload.data
+            ? action.payload.data // повинно бути масивом!
             : [...state.items, ...action.payload.data];
+          console.log(typeof state.items);
 
           state.hasNextPage = action.payload.hasNextPage;
           state.loading.allLinks = false;

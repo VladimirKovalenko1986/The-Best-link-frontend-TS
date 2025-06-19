@@ -1,6 +1,6 @@
 import { RotatingSquare } from 'react-loader-spinner';
 
-export default function RotatingSquareLoading() {
+const RotatingSquareLoading = () => {
   return (
     <RotatingSquare
       visible={true}
@@ -12,4 +12,6 @@ export default function RotatingSquareLoading() {
       wrapperClass=""
     />
   );
-}
+};
+
+export default RotatingSquareLoading;

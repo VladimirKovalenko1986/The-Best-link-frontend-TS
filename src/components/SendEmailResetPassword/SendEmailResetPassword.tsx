@@ -1,28 +1,30 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
 import { useId } from 'react';
 import { toast } from 'react-toastify';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectLoadingResetPassword } from '../../redux/auth/selectors.ts';
 import { sendEmailResetPassword } from '../../redux/auth/operations.ts';
 import TriangleLoading from '../TriangleLoading/TriangleLoading.tsx';
+import type { AppDispatch } from '../../redux/types.ts';
+import type { FormikHelpers } from 'formik';
+import { emailSchema } from './sendEmailResetPassword.type.ts';
+import type { EmailResetValue } from './sendEmailResetPassword.type.ts';
 import css from './SedEmailResetPassword.module.css';
 
-export default function SendEmailResetPassword() {
-  const dispatch = useDispatch();
+const SendEmailResetPassword = () => {
+  const dispatch = useDispatch<AppDispatch>();
   const loadingResetPassword = useSelector(selectLoadingResetPassword);
 
-  const emailSchema = Yup.object().shape({
-    email: Yup.string().email('Must be a valid email!').required('Required'),
-  });
-
-  const initialValues = {
+  const initialValues: EmailResetValue = {
     email: '',
   };
 
   const emailId = useId();
 
-  const handleSubmit = (values, actions) => {
+  const handleSubmit = (
+    values: EmailResetValue,
+    actions: FormikHelpers<EmailResetValue>
+  ) => {
     dispatch(sendEmailResetPassword({ email: values.email }))
       .unwrap()
       .then(() => {
@@ -72,4 +74,6 @@ export default function SendEmailResetPassword() {
       )}
     </Formik>
   );
-}
+};
+
+export default SendEmailResetPassword;

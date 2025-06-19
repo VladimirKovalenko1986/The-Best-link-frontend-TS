@@ -4,7 +4,7 @@ import InfinitySpinLoading from '../../components/InfinitySpinLoading/InfinitySp
 import TitleLink from '../../components/TitleLink/TitleLink.tsx';
 import css from './HomePage.module.css';
 
-export default function HomePage() {
+const HomePage = () => {
   const loadingLogout = useSelector(selectLoadingLogout);
   return (
     <div>
@@ -28,4 +28,6 @@ export default function HomePage() {
       </p>
     </div>
   );
-}
+};
+
+export default HomePage;

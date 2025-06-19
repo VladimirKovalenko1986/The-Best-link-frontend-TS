@@ -6,7 +6,7 @@ import { selectLoadingLogout } from '../../redux/auth/selectors.ts';
 import InfinitySpinLoading from '../../components/InfinitySpinLoading/InfinitySpinLoading.tsx';
 import css from './LinksPage.module.css';
 
-export default function LinksPage() {
+const LinksPage = () => {
   const loadingLogout = useSelector(selectLoadingLogout);
   return (
     <div className={css.conteiner}>
@@ -16,4 +16,6 @@ export default function LinksPage() {
       <LoadeMoreButton />
     </div>
   );
-}
+};
+
+export default LinksPage;

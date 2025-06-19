@@ -1,52 +1,61 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import * as Yup from 'yup';
 import { useId, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { registration } from '../../redux/auth/operations.ts';
+import { registration, logIn } from '../../redux/auth/operations.ts';
 import {
   selectLoadingRegistration,
   selectError,
 } from '../../redux/auth/selectors.ts';
+import type { AppDispatch } from '../../redux/types.ts';
+import type { FormikHelpers } from 'formik';
+import { userSchemaRegistration } from './registration.type.ts';
+import type { RegistrationFormValue } from './registration.type.ts';
 import FallingLinesLoading from '../FallingLinesLoading/FallingLinesLoading.tsx';
+import type { UserDto } from '../../redux/auth/auth.type.ts';
 import css from './RegistrationForm.module.css';
 
-export default function RegistrationForm() {
+const RegistrationForm = () => {
   const loadingRegistration = useSelector(selectLoadingRegistration);
   const error = useSelector(selectError);
-  const dispatch = useDispatch();
-  const fileInputRef = useRef('');
+  const dispatch = useDispatch<AppDispatch>();
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const navigate = useNavigate();
 
-  const userSchema = Yup.object().shape({
-    name: Yup.string()
-      .min(3, 'Too Short!')
-      .max(30, 'Too Long!')
-      .required('Required'),
-    email: Yup.string().email('Must be a valid email!').required('Required'),
-    password: Yup.string()
-      .min(6, 'Too Short!')
-      .max(50, 'Too Long!')
-      .required('Required'),
-    photo: Yup.string().notRequired(),
-  });
-
-  const initialValues = {
+  const initialValues: RegistrationFormValue = {
     name: '',
     email: '',
     password: '',
     photo: '',
   };
 
-  const handleSubmit = (values, actions) => {
-    dispatch(registration(values))
+  const handleSubmit = (
+    values: RegistrationFormValue,
+    actions: FormikHelpers<RegistrationFormValue>
+  ): void => {
+    const { photo, ...rest } = values;
+
+    const payload: UserDto = {
+      ...rest,
+      photo: typeof photo === 'string' ? photo : undefined,
+    };
+
+    dispatch(registration(payload))
       .unwrap()
       .then(() => {
-        toast.success('You have successfully registered!');
-        actions.resetForm();
-        fileInputRef.current.value = '';
-        navigate('/login');
+        // після реєстрації — логін
+        dispatch(logIn({ email: values.email, password: values.password }))
+          .unwrap()
+          .then(() => {
+            toast.success('You have successfully registered and logged in!');
+            actions.resetForm();
+            navigate('/links');
+          })
+          .catch(() => {
+            toast.error('Registration succeeded but login failed');
+            navigate('/login'); // запасний варіант
+          });
       })
       .catch(err => {
         if (err === 'Request failed with status code 409') {
@@ -67,7 +76,7 @@ export default function RegistrationForm() {
       {loadingRegistration && <FallingLinesLoading />}
       <Formik
         initialValues={initialValues}
-        validationSchema={userSchema}
+        validationSchema={userSchemaRegistration}
         onSubmit={handleSubmit}
       >
         {/* Використовуємо render props для поля фото */}
@@ -132,8 +141,11 @@ export default function RegistrationForm() {
                 accept="image/*"
                 ref={fileInputRef}
                 onChange={event => {
-                  const file = event.currentTarget.files[0];
-                  setFieldValue('photo', file);
+                  const files = event.currentTarget.files;
+                  if (files && files.length > 0) {
+                    const file = files[0];
+                    setFieldValue('poster', file);
+                  }
                 }}
               />
             </div>
@@ -150,4 +162,6 @@ export default function RegistrationForm() {
       </Formik>
     </div>
   );
-}
+};
+
+export default RegistrationForm;

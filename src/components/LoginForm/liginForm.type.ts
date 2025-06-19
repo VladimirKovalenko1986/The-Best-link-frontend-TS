@@ -1,7 +1,7 @@
 import * as Yup from 'yup';
 import type { InferType } from 'yup';
 
-export const userSchema = Yup.object().shape({
+export const userSchemaLogin = Yup.object().shape({
   email: Yup.string().email('Must be a valid email!').required('Required'),
   password: Yup.string()
     .min(6, 'Too Short!')
@@ -9,4 +9,4 @@ export const userSchema = Yup.object().shape({
     .required('Required'),
 });
 
-export type LoginFormValues = InferType<typeof userSchema>;
+export type LoginFormValues = InferType<typeof userSchemaLogin>;

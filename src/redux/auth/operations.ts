@@ -11,8 +11,10 @@ import type { RootState } from '../types';
 axios.defaults.baseURL = 'https://the-best-link-backend.onrender.com';
 axios.defaults.withCredentials = true;
 
-export const setAuthHeader = (token: string): void => {
-  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+export const setAuthHeader = (token: string | null) => {
+  if (token) {
+    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+  }
 };
 
 const clearAuthHeader = (): void => {
@@ -48,7 +50,6 @@ export const registration = createAsyncThunk<
         },
       }
     );
-
     return response.data;
   } catch (error) {
     const err = error as AxiosError<{ message: string }>;
@@ -156,7 +157,7 @@ export const sendEmailResetPassword = createAsyncThunk<
 
 export const resetPassword = createAsyncThunk<
   void,
-  { token: string; password: string },
+  { token: string | null; password: string },
   { rejectValue: string }
 >('auth/reset-password', async ({ token, password }, thunkAPI) => {
   try {

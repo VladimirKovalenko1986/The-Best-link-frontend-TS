@@ -1,10 +1,11 @@
 import { FaGooglePlus } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
 import { fetchGoogleOAuthUrl } from '../../redux/auth/operations.ts';
+import type { AppDispatch } from '../../redux/types.ts';
 import css from './RegistrationGoogle.module.css';
 
-export default function RegistrationGoogle() {
-  const dispatch = useDispatch();
+const RegistrationGoogle = () => {
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleGoogleLogin = async () => {
     try {
@@ -23,4 +24,5 @@ export default function RegistrationGoogle() {
       </button>
     </div>
   );
-}
+};
+export default RegistrationGoogle;

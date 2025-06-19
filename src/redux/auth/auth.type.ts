@@ -15,7 +15,7 @@ export type UserDto = {
   name: string;
   email: string;
   password: string;
-  photo?: File;
+  photo?: File | string;
 };
 
 export type LoginDto = {

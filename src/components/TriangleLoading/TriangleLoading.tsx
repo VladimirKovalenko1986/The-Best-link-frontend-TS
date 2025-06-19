@@ -1,6 +1,6 @@
 import { Triangle } from 'react-loader-spinner';
 
-export default function TriangleLoading() {
+const TriangleLoading = () => {
   return (
     <Triangle
       visible={true}
@@ -12,4 +12,6 @@ export default function TriangleLoading() {
       wrapperClass=""
     />
   );
-}
+};
+
+export default TriangleLoading;

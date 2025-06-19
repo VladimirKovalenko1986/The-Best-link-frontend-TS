@@ -9,6 +9,7 @@ import type {
   LinkEdit,
   EditLinkResponse,
 } from './links.type.ts';
+import { setAuthHeader } from '../auth/operations.ts';
 import type { RootState } from '../types.ts';
 
 axios.defaults.baseURL = 'https://the-best-link-backend.onrender.com';
@@ -17,13 +18,20 @@ axios.defaults.withCredentials = true;
 export const fetchLinks = createAsyncThunk<
   FetchLinksResponse,
   FetchLinksParams,
-  { rejectValue: string }
+  { rejectValue: string; state: RootState }
 >('fetchLinks', async ({ page = 1, limit = 10, filter = '' }, thunkAPI) => {
   try {
-    const response = await axios.get(`/links`, {
+    const state = thunkAPI.getState();
+    const token = state.auth.token;
+
+    if (token) {
+      setAuthHeader(token);
+    }
+
+    const response = await axios.get('/links', {
       params: { page, limit, nameType: filter },
     });
-    console.log(response.data.data.data, response.data.data.hasNextPage);
+
     return {
       data: response.data.data.data,
       hasNextPage: response.data.data.hasNextPage,

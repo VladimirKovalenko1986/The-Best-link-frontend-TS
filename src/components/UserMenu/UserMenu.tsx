@@ -2,13 +2,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectLoadingLogout, selectUser } from '../../redux/auth/selectors.ts';
 import { logOut } from '../../redux/auth/operations.ts';
 import InfinitySpinLoading from '../InfinitySpinLoading/InfinitySpinLoading.tsx';
+import type { AppDispatch } from '../../redux/types.ts';
 import css from './UserMenu.module.css';
 
-export default function UserMenu() {
+const UserMenu = () => {
   const loadingLogout = useSelector(selectLoadingLogout);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const user = useSelector(selectUser);
-  const { photo, name } = user;
+  const photo = user?.photo;
+  const name = user?.name;
   const placeholderImage =
     'https://cdn-icons-png.flaticon.com/512/149/149071.png';
   const userPhoto =
@@ -30,4 +32,6 @@ export default function UserMenu() {
       </button>
     </div>
   );
-}
+};
+
+export default UserMenu;

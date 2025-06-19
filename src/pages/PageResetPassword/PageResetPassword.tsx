@@ -1,34 +1,33 @@
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
 import { toast } from 'react-toastify';
-import { selectLoadingResetPassword } from '../../redux/auth/selector.ts';
+import { selectLoadingResetPassword } from '../../redux/auth/selectors.ts';
 import { resetPassword } from '../../redux/auth/operations.ts';
 import { useId } from 'react';
 import TriangleLoading from '../../components/TriangleLoading/TriangleLoading.tsx';
+import type { AppDispatch } from '../../redux/types.ts';
+import { passwordSchema } from './pageResetPasswortd.type.ts';
+import type { PasswordResetValue } from './pageResetPasswortd.type.ts';
+import type { FormikHelpers } from 'formik';
 import css from './PageResetPassword.module.css';
 
-export default function PageResetPassword() {
+const PageResetPassword = () => {
   const [searchParams] = useSearchParams();
   const token = searchParams.get('token');
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const passwordId = useId();
   const loadingResetPassword = useSelector(selectLoadingResetPassword);
   const navigate = useNavigate();
 
-  const passwordSchema = Yup.object().shape({
-    password: Yup.string()
-      .min(6, 'Too Short!')
-      .max(50, 'Too Long!')
-      .required('Required'),
-  });
-
-  const initialValues = {
+  const initialValues: PasswordResetValue = {
     password: '',
   };
 
-  const handleSubmit = (values, actions) => {
+  const handleSubmit = (
+    values: PasswordResetValue,
+    actions: FormikHelpers<PasswordResetValue>
+  ) => {
     dispatch(resetPassword({ token, password: values.password }))
       .unwrap()
       .then(() => {
@@ -82,4 +81,6 @@ export default function PageResetPassword() {
       </Formik>
     </div>
   );
-}
+};
+
+export default PageResetPassword;

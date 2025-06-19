@@ -8,7 +8,7 @@ import HourglassLoading from '../HourglassLoading/HourglassLoading.tsx';
 import type { AppDispatch } from '../../redux/types.ts';
 import type { FormikHelpers } from 'formik';
 import type { LoginFormValues } from './liginForm.type.ts';
-import { userSchema } from './liginForm.type.ts';
+import { userSchemaLogin } from './liginForm.type.ts';
 import css from './LoginForm.module.css';
 
 const LoginForm = () => {
@@ -49,7 +49,7 @@ const LoginForm = () => {
       <Formik
         initialValues={initialValues}
         onSubmit={handleSubmit}
-        validationSchema={userSchema}
+        validationSchema={userSchemaLogin}
       >
         <Form className={css.form}>
           <div className={css.conteiner}>

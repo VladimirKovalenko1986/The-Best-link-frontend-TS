@@ -1,9 +1,12 @@
-import css from "./TitleLink.module.css";
+import type { TitleLinkProps } from './titleLink.type';
+import css from './TitleLink.module.css';
 
-export default function TitleLink({ text }) {
+const TitleLink = ({ text }: TitleLinkProps) => {
   return (
     <div className={css.conteiner}>
       <h1>{text}</h1>
     </div>
   );
-}
+};
+
+export default TitleLink;

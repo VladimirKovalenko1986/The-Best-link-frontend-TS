@@ -6,10 +6,11 @@ import { Link, Outlet } from 'react-router-dom';
 import { Suspense, useEffect } from 'react';
 import { fetchGoogleOAuthUrl } from '../../redux/auth/operations.ts';
 import RegistrationGoogle from '../../components/RegistrationGoogle/RegistrationGoogle.tsx';
+import type { AppDispatch } from '../../redux/types.ts';
 import css from './LoginPage.module.css';
 
-export default function LoginPage() {
-  const dispatch = useDispatch();
+const LoginPage = () => {
+  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
     dispatch(fetchGoogleOAuthUrl());
@@ -30,4 +31,6 @@ export default function LoginPage() {
       </Suspense>
     </div>
   );
-}
+};
+
+export default LoginPage;

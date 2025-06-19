@@ -10,16 +10,16 @@ import {
   fetchGoogleOAuthUrl,
   loginWithGoogle,
 } from './operations.ts';
-import type { ResponseUser, GoogleLoginResponse } from './auth.type.ts';
+import type { ResponseUser, GoogleLoginResponse, User } from './auth.type.ts';
 
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
     user: {
-      name: null as string | null,
-      email: null as string | null,
-      photo: null as string | null,
-    },
+      name: null,
+      email: null,
+      photo: null,
+    } as User,
     token: null as string | null,
     isLoggedIn: false,
     isRefreshing: false,
@@ -49,6 +49,7 @@ const authSlice = createSlice({
         (state, action: PayloadAction<ResponseUser>): void => {
           state.user = action.payload.data.user;
           state.token = action.payload.data.accessToken || null;
+          console.log(state.token);
           state.isLoggedIn = true;
           state.loading.registration = false;
         }

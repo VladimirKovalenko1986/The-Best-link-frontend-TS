@@ -3,7 +3,7 @@ import RegistrationForm from '../../components/RegistrationForm/RegistrationForm
 import RegistrationGoogle from '../../components/RegistrationGoogle/RegistrationGoogle.tsx';
 import css from './RegisterPage.module.css';
 
-export default function RegisterPage() {
+const RegisterPage = () => {
   return (
     <div className={css.conteiner}>
       <TitleLink text="Register you account" />
@@ -11,4 +11,6 @@ export default function RegisterPage() {
       <RegistrationGoogle />
     </div>
   );
-}
+};
+
+export default RegisterPage;

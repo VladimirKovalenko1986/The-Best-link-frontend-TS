@@ -1,6 +1,6 @@
-import { RevolvingDot } from "react-loader-spinner";
+import { RevolvingDot } from 'react-loader-spinner';
 
-export default function RevolvingDotLoading() {
+const RevolvingDotLoading = () => {
   return (
     <RevolvingDot
       visible={true}
@@ -12,4 +12,6 @@ export default function RevolvingDotLoading() {
       wrapperClass=""
     />
   );
-}
+};
+
+export default RevolvingDotLoading;
