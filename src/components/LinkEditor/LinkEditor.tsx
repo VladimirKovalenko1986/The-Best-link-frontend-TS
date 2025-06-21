@@ -42,7 +42,10 @@ const LinkEditor = () => {
 
     const payload: LinkEdit = {
       ...rest,
-      poster: typeof poster === 'string' ? poster : undefined,
+      poster:
+        typeof poster === 'string' || poster instanceof File
+          ? poster
+          : undefined,
     };
     dispatch(addLink(payload))
       .unwrap()
@@ -51,7 +54,7 @@ const LinkEditor = () => {
         dispatch(setPage(1));
         dispatch(fetchLinks({ page: 1, limit: 10, filter }));
 
-        // Очищення форми
+        // cliear form
         actions.resetForm();
         if (fileInputRef.current) {
           fileInputRef.current.value = '';
@@ -62,7 +65,7 @@ const LinkEditor = () => {
         if (err === 'Request failed with status code 401') {
           try {
             await dispatch(refreshUser()).unwrap();
-            // Після оновлення токена, повторюємо спробу додати лінк
+            // Form update token, replay add link
             await dispatch(addLink(payload)).unwrap();
             toast.success('Link added after refreshing token!');
             dispatch(setPage(1));
