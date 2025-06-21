@@ -54,12 +54,14 @@ const FormEditor = () => {
   ) => {
     if (!id) return;
 
-    // Видаляємо файл, бо сервер очікує URL (string)
     const { poster, ...rest } = values;
 
     const payload: LinkEdit = {
       ...rest,
-      poster: typeof poster === 'string' ? poster : undefined,
+      poster:
+        typeof poster === 'string' || poster instanceof File
+          ? poster
+          : undefined,
     };
 
     dispatch(editLink({ linkId: id, linkData: payload }))

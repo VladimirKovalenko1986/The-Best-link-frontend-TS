@@ -32,7 +32,7 @@ export const editLinkSchema = Yup.object().shape({
     .max(200, 'Too Long!')
     .required('Required'),
 
-  poster: Yup.mixed<File>().nullable().notRequired(),
+  poster: Yup.mixed<File>().notRequired(),
 });
 
 export type EditLinkFormValues = InferType<typeof editLinkSchema>;
