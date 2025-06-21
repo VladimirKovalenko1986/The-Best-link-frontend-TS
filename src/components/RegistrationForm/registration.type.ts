@@ -11,7 +11,7 @@ export const userSchemaRegistration = Yup.object().shape({
     .min(6, 'Too Short!')
     .max(50, 'Too Long!')
     .required('Required'),
-  photo: Yup.string().notRequired(),
+  photo: Yup.mixed<File>().notRequired(),
 });
 
 export type RegistrationFormValue = InferType<typeof userSchemaRegistration>;

@@ -71,7 +71,7 @@ const slice = createSlice({
           const isFirstPage = action.meta.arg.page === 1;
 
           state.items = isFirstPage
-            ? action.payload.data // повинно бути масивом!
+            ? action.payload.data
             : [...state.items, ...action.payload.data];
           console.log(typeof state.items);
 

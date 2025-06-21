@@ -27,7 +27,7 @@ const RegistrationForm = () => {
     name: '',
     email: '',
     password: '',
-    photo: '',
+    photo: null,
   };
 
   const handleSubmit = (
@@ -35,10 +35,10 @@ const RegistrationForm = () => {
     actions: FormikHelpers<RegistrationFormValue>
   ): void => {
     const { photo, ...rest } = values;
-
     const payload: UserDto = {
       ...rest,
-      photo: typeof photo === 'string' ? photo : undefined,
+      photo:
+        typeof photo === 'string' || photo instanceof File ? photo : undefined,
     };
 
     dispatch(registration(payload))
@@ -144,7 +144,7 @@ const RegistrationForm = () => {
                   const files = event.currentTarget.files;
                   if (files && files.length > 0) {
                     const file = files[0];
-                    setFieldValue('poster', file);
+                    setFieldValue('photo', file);
                   }
                 }}
               />

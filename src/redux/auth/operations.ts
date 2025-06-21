@@ -39,7 +39,7 @@ export const registration = createAsyncThunk<
     if (userData.photo) {
       formData.append('photo', userData.photo);
     }
-
+    console.log(userData.photo);
     // 4. Send multipart/form-data on the backend
     const response = await axios.post<ResponseUser>(
       '/auth/register',

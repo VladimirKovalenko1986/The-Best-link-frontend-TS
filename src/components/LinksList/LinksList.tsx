@@ -8,6 +8,7 @@ import {
 import LinkItem from '../LinkItem/LinkItem.tsx';
 import DiscussLoading from '../DiscussLoading/DiscussLoading.tsx';
 import { fetchLinks } from '../../redux/links/operations.ts';
+import { selectIsLoggedIn, selectToken } from '../../redux/auth/selectors.ts';
 import { setPage } from '../../redux/links/slice.ts';
 import FilterLink from '../FilterLink/FilterLink.tsx';
 import ScrollToTopButton from '../ScrollToTopButton/ScrollToTopButton.tsx';
@@ -19,11 +20,14 @@ const LinksList = () => {
   const links = useSelector(selectLinks);
   const loadingAllLinks = useSelector(selectLoadingAllLinks);
   const filter = useSelector(selectFilter);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const token = useSelector(selectToken);
 
   useEffect(() => {
+    if (!isLoggedIn || !token) return;
     dispatch(setPage(1));
     dispatch(fetchLinks({ page: 1, limit: 10, filter }));
-  }, [dispatch, filter]);
+  }, [isLoggedIn, token, dispatch, filter]);
 
   return (
     <div>
