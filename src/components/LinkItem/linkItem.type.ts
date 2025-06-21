@@ -17,6 +17,6 @@ export type LinkItemProps = {
     link: string;
     nameLink: string;
     textLink: string;
-    poster?: string;
+    poster?: string | File;
   };
 };

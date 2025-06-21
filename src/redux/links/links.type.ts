@@ -18,7 +18,7 @@ export type Link = {
   link: string;
   nameLink: string;
   textLink: string;
-  poster?: File | string;
+  poster?: string | File;
 };
 
 export type EditLinkResponse = {
